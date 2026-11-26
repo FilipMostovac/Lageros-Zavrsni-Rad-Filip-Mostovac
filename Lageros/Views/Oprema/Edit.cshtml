@@ -1,0 +1,21 @@
+﻿@model Lageros.Models.ViewModels.OpremaFormViewModel
+
+@{
+    ViewData["Title"] = "Uredi opremu";
+}
+
+<h1>Uredi opremu</h1>
+
+<form asp-action="Edit" asp-route-id="@Model.Id" method="post">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <input type="hidden" asp-for="Id" />
+
+    <partial name="_OpremaFields" model="Model" />
+
+    <button type="submit" class="btn btn-success">Spremi</button>
+    <a asp-action="Index" class="btn btn-outline-secondary">Odustani</a>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

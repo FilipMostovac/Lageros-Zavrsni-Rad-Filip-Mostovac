@@ -1,0 +1,73 @@
+﻿@using Lageros.Models
+@model Lageros.Models.ViewModels.ZaduzenjeIndexViewModel
+
+@{
+    ViewData["Title"] = "Zaduženja";
+}
+
+<div class="mb-3">
+    <h1 class="mb-0">Povijest zaduženja</h1>
+    <small class="text-muted">@Model.Zaduzenja.Count zapisa · @Model.Zaduzenja.Count(z => z.Aktivno) aktivnih</small>
+</div>
+
+<form method="get" asp-action="Index" class="lg-card row g-2 align-items-end mb-4">
+    <div class="col-md-4">
+        <label asp-for="Trazi" class="form-label">Pretraga</label>
+        <input asp-for="Trazi" class="form-control" placeholder="Zaposlenik ili oprema..." />
+    </div>
+    <div class="col-md-3">
+        <label asp-for="Vrsta" class="form-label">Vrsta</label>
+        <select asp-for="Vrsta" asp-items="Html.GetEnumSelectList<VrstaOpreme>()" class="form-select">
+            <option value="">Sve</option>
+        </select>
+    </div>
+    <div class="col-md-3">
+        <div class="form-check">
+            <input asp-for="SamoAktivna" class="form-check-input" />
+            <label asp-for="SamoAktivna" class="form-check-label">Samo aktivna</label>
+        </div>
+    </div>
+    <div class="col-md-2">
+        <button type="submit" class="btn btn-outline-secondary w-100">Filtriraj</button>
+    </div>
+</form>
+
+<div class="lg-card flush">
+    <table class="table align-middle">
+    <thead>
+        <tr>
+            <th>Oprema</th>
+            <th>Zaposlenik</th>
+            <th>Zaduženo</th>
+            <th>Razduženo</th>
+            <th>Administrator</th>
+            <th>Napomene</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var z in Model.Zaduzenja)
+        {
+            <tr>
+                <td>
+                    <strong>@z.Oprema</strong><br />
+                    <small class="text-muted">@z.Vrsta.Naziv() · <code><a asp-controller="Oprema" asp-action="Details" asp-route-id="@z.OpremaId">@z.InventarniBroj</a></code></small>
+                <td><a asp-controller="Zaposlenici" asp-action="Details" asp-route-id="@z.ZaposlenikId">@z.Zaposlenik</a></td>
+                <td>@z.DatumZaduzenja.ToString("dd.MM.yyyy.")</td>
+                <td>
+                    @if (z.Aktivno)
+                    {
+                        <span class="badge bg-primary">aktivno</span>
+                    }
+                    else
+                    {
+
+                        @z.DatumRazduzenja!.Value.ToString("dd.MM.yyyy.")
+                    }
+                </td>
+                <td><small>@z.Administrator</small></td>
+                <td>@z.Napomena</td>
+            </tr>
+        }
+    </tbody>
+    </table>
+</div>

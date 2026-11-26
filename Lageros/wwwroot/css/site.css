@@ -1,0 +1,628 @@
+/* =========================================================
+   1. DESIGN TOKENS (boje i mjere)
+   ========================================================= */
+:root {
+    --lg-accent: #16a34a;
+    --lg-accent-hover: #15803d;
+    --lg-accent-text: #ffffff;
+    --lg-bg: #f4f6f5;
+    --lg-surface: #ffffff;
+    --lg-surface-2: #eef1ef;
+    --lg-border: #dde2df;
+    --lg-text: #16201b;
+    --lg-muted: #5f6b65;
+    --c-zaduzeno: #3b78d8;
+    --c-skladiste: #16a34a;
+    --c-servis: #d08a0b;
+    --c-otpisano: #8a8f8c;
+    --lg-radius: 14px;
+}
+
+[data-bs-theme="dark"] {
+    --lg-accent: #4ade80;
+    --lg-accent-hover: #6ee79a;
+    --lg-accent-text: #05210f;
+    --lg-bg: #111312;
+    --lg-surface: #1c1d1d;
+    --lg-surface-2: #252727;
+    --lg-border: #2c2f2e;
+    --lg-text: #f2f4f3;
+    --lg-muted: #9ba39f;
+    --c-zaduzeno: #4a86e0;
+    --c-skladiste: #22a45d;
+    --c-servis: #d99a1e;
+    --c-otpisano: #6b706d;
+}
+
+/* =========================================================
+   2. OSNOVA + preslikavanje na Bootstrap varijable
+   ========================================================= */
+html {
+    font-size: 15px;
+}
+
+body {
+    --bs-body-bg: var(--lg-bg);
+    --bs-body-color: var(--lg-text);
+    --bs-border-color: var(--lg-border);
+    --bs-secondary-color: var(--lg-muted);
+    background: var(--lg-bg);
+    color: var(--lg-text);
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+a {
+    color: var(--lg-accent);
+    text-decoration: none;
+}
+
+    a:hover {
+        color: var(--lg-accent-hover);
+        text-decoration: underline;
+    }
+
+h1, h2, h3, h4 {
+    font-weight: 800;
+    letter-spacing: -0.01em;
+}
+
+code {
+    color: var(--lg-text);
+    background: transparent;
+    font-size: 0.85em;
+}
+
+/* =========================================================
+   3. RASPORED STRANICE
+   ========================================================= */
+.lg-shell {
+    width: 100%;
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 0 20px;
+    flex: 1;
+}
+
+.lg-header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+    padding: 22px 0 14px;
+    border-bottom: 3px solid var(--lg-accent);
+}
+
+.lg-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--lg-text);
+    padding-right: 18px;
+    margin-right: 18px;
+    border-right: 1px solid var(--lg-border);
+}
+
+    .lg-brand:hover {
+        color: var(--lg-text);
+        text-decoration: none;
+    }
+
+.lg-title {
+    display: flex;
+    align-items: center;
+}
+
+    .lg-title h1 {
+        font-size: 1.7rem;
+        margin: 0;
+        line-height: 1.1;
+    }
+
+    .lg-title small {
+        color: var(--lg-muted);
+    }
+
+.lg-user {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 0.9rem;
+}
+
+.link-btn {
+    background: none;
+    border: 0;
+    padding: 0;
+    color: var(--lg-text);
+    text-decoration: underline;
+    text-decoration-color: var(--lg-accent);
+    text-underline-offset: 4px;
+    cursor: pointer;
+}
+
+.lg-main {
+    padding: 24px 0 40px;
+}
+
+.lg-footer {
+    border-top: 1px solid var(--lg-border);
+    color: var(--lg-muted);
+    font-size: 0.85rem;
+    padding: 16px 20px;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 8px;
+    max-width: 1240px;
+    width: 100%;
+    margin: 0 auto;
+}
+
+/* =========================================================
+   4. TABOVI (navigacija)
+   ========================================================= */
+.lg-tabs {
+    display: inline-flex;
+    flex-wrap: wrap;
+    gap: 2px;
+    padding: 4px;
+    margin-top: 18px;
+    background: var(--lg-surface);
+    border: 1px solid var(--lg-border);
+    border-radius: 12px;
+}
+
+    .lg-tabs a {
+        padding: 8px 16px;
+        border-radius: 9px;
+        color: var(--lg-muted);
+        font-weight: 500;
+    }
+
+        .lg-tabs a:hover {
+            color: var(--lg-text);
+            text-decoration: none;
+        }
+
+        .lg-tabs a.active {
+            background: var(--lg-text);
+            color: var(--lg-bg);
+            font-weight: 600;
+            box-shadow: inset 0 -3px 0 var(--lg-accent);
+        }
+
+/* =========================================================
+   5. PREKIDAČ TEME
+   ========================================================= */
+.theme-switch {
+    display: inline-flex;
+    padding: 3px;
+    background: var(--lg-surface);
+    border: 1px solid var(--lg-border);
+    border-radius: 999px;
+}
+
+    .theme-switch button {
+        border: 0;
+        background: transparent;
+        width: 32px;
+        height: 26px;
+        border-radius: 999px;
+        font-size: 0.85rem;
+        cursor: pointer;
+    }
+
+        .theme-switch button.active {
+            background: var(--lg-accent);
+        }
+
+/* =========================================================
+   6. KARTICE, TABLICE, FORME, GUMBI
+   ========================================================= */
+.lg-card {
+    background: var(--lg-surface);
+    border: 1px solid var(--lg-border);
+    border-radius: var(--lg-radius);
+    padding: 20px;
+}
+
+    .lg-card.flush {
+        padding: 0;
+        overflow: hidden;
+    }
+
+.table {
+    --bs-table-bg: transparent;
+    --bs-table-color: var(--lg-text);
+    --bs-table-border-color: var(--lg-border);
+    margin: 0;
+}
+
+    .table > thead th {
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        color: var(--lg-muted);
+        font-weight: 700;
+        padding: 14px 16px;
+        border-bottom: 1px solid var(--lg-border);
+    }
+
+    .table > tbody td {
+        padding: 12px 16px;
+    }
+
+    .table > tbody tr:last-child td {
+        border-bottom: 0;
+    }
+
+    .table > tbody tr:hover {
+        background: var(--lg-surface-2);
+    }
+
+.form-control, .form-select {
+    background-color: var(--lg-surface);
+    border-color: var(--lg-border);
+    color: var(--lg-text);
+}
+
+    .form-control:focus, .form-select:focus {
+        background-color: var(--lg-surface);
+        color: var(--lg-text);
+        border-color: var(--lg-accent);
+        box-shadow: 0 0 0 3px color-mix(in srgb, var(--lg-accent) 25%, transparent);
+    }
+
+.form-label {
+    font-weight: 600;
+    font-size: 0.85rem;
+    color: var(--lg-muted);
+}
+
+.form-check-input:checked {
+    background-color: var(--lg-accent);
+    border-color: var(--lg-accent);
+}
+
+.btn {
+    border-radius: 9px;
+    font-weight: 600;
+}
+
+.btn-success {
+    --bs-btn-bg: var(--lg-accent);
+    --bs-btn-border-color: var(--lg-accent);
+    --bs-btn-color: var(--lg-accent-text);
+    --bs-btn-hover-bg: var(--lg-accent-hover);
+    --bs-btn-hover-border-color: var(--lg-accent-hover);
+    --bs-btn-hover-color: var(--lg-accent-text);
+    --bs-btn-active-bg: var(--lg-accent-hover);
+    --bs-btn-active-border-color: var(--lg-accent-hover);
+    --bs-btn-active-color: var(--lg-accent-text);
+}
+
+.btn-outline-secondary {
+    --bs-btn-color: var(--lg-text);
+    --bs-btn-border-color: var(--lg-border);
+    --bs-btn-hover-bg: var(--lg-surface-2);
+    --bs-btn-hover-border-color: var(--lg-muted);
+    --bs-btn-hover-color: var(--lg-text);
+    --bs-btn-active-bg: var(--lg-surface-2);
+    --bs-btn-active-color: var(--lg-text);
+    background: var(--lg-surface);
+}
+
+/* =========================================================
+   7. STATUSI (pilule), AVATARI
+   ========================================================= */
+.status {
+    display: inline-block;
+    padding: 3px 11px;
+    border-radius: 999px;
+    font-size: 0.78rem;
+    font-weight: 700;
+    background: color-mix(in srgb, var(--c) 18%, transparent);
+    color: var(--c);
+}
+
+.status-naskladistu {
+    --c: var(--c-skladiste);
+}
+
+.status-zaduzeno {
+    --c: var(--c-zaduzeno);
+}
+
+.status-naservisu {
+    --c: var(--c-servis);
+}
+
+.status-otpisano {
+    --c: var(--c-otpisano);
+}
+
+.avatar {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    display: inline-grid;
+    place-items: center;
+    background: var(--lg-text);
+    color: var(--lg-bg);
+    font-weight: 800;
+    font-size: 0.8rem;
+    box-shadow: 0 3px 0 var(--lg-accent);
+    flex-shrink: 0;
+}
+
+/* =========================================================
+   8. KARTICE SEKTORA
+   ========================================================= */
+.sektor-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 16px;
+}
+
+.sektor-card {
+    background: var(--lg-surface);
+    border: 1px solid var(--lg-border);
+    border-left: 4px solid var(--lg-accent);
+    border-radius: var(--lg-radius);
+    padding: 16px 18px;
+}
+
+    .sektor-card .naziv {
+        font-size: 0.9rem;
+        color: var(--lg-muted);
+        font-weight: 600;
+    }
+
+    .sektor-card .broj {
+        font-size: 2.6rem;
+        font-weight: 800;
+        line-height: 1.1;
+    }
+
+    .sektor-card .akcije {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        margin-top: 10px;
+        font-size: 0.85rem;
+    }
+
+/* =========================================================
+   9. DASHBOARD
+   ========================================================= */
+.welcome {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+    .welcome .datum {
+        font-size: 0.75rem;
+        font-weight: 700;
+        letter-spacing: 0.06em;
+        color: var(--lg-muted);
+    }
+
+    .welcome h2 {
+        font-size: 1.9rem;
+        margin: 4px 0;
+    }
+
+.dash-grid-3 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-top: 16px;
+}
+
+.dash-grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 16px;
+    margin-top: 16px;
+}
+
+@media (max-width: 900px) {
+    .dash-grid-3, .dash-grid-2 {
+        grid-template-columns: 1fr;
+    }
+}
+
+.stat-card {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    border-left: 4px solid var(--lg-accent);
+}
+
+.stat-info {
+    flex: 1;
+    min-width: 0;
+}
+
+    .stat-info h3 {
+        font-size: 1rem;
+        margin-bottom: 8px;
+    }
+
+.legend {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    font-size: 0.85rem;
+}
+
+    .legend li {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 2px 0;
+    }
+
+    .legend b {
+        margin-left: auto;
+    }
+
+.dot {
+    width: 9px;
+    height: 9px;
+    border-radius: 3px;
+    display: inline-block;
+}
+
+.dot-zaduzeno {
+    background: var(--c-zaduzeno);
+}
+
+.dot-skladiste {
+    background: var(--c-skladiste);
+}
+
+.dot-servis {
+    background: var(--c-servis);
+}
+
+/* Donut */
+.donut {
+    width: var(--d, 84px);
+    height: var(--d, 84px);
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+}
+
+.donut-hole {
+    width: 66%;
+    height: 66%;
+    border-radius: 50%;
+    background: var(--lg-surface);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    font-size: 1.4rem;
+    line-height: 1;
+}
+
+    .donut-hole small {
+        font-size: 0.6rem;
+        color: var(--lg-muted);
+        font-weight: 600;
+        margin-top: 3px;
+    }
+
+/* Stupčasti graf */
+.chart-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 14px;
+}
+
+.chart-legend {
+    display: flex;
+    gap: 14px;
+    font-size: 0.8rem;
+    color: var(--lg-muted);
+}
+
+    .chart-legend span {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+    }
+
+.chart {
+    display: grid;
+    grid-template-columns: 28px 1fr;
+}
+
+.chart-y, .chart-plot {
+    position: relative;
+    height: 200px;
+}
+
+    .chart-y span {
+        position: absolute;
+        right: 8px;
+        transform: translateY(50%);
+        font-size: 0.75rem;
+        color: var(--lg-muted);
+    }
+
+.chart-line {
+    position: absolute;
+    left: 0;
+    right: 0;
+    border-top: 1px solid var(--lg-border);
+}
+
+.chart-cols {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+}
+
+.chart-col {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    gap: 3px;
+    height: 100%;
+}
+
+.bar {
+    width: 38%;
+    max-width: 18px;
+    border-radius: 3px 3px 0 0;
+    min-height: 0;
+}
+
+.bar-a {
+    background: var(--c-zaduzeno);
+}
+
+.bar-b {
+    background: var(--c-skladiste);
+}
+
+.chart-labels {
+    grid-column: 2;
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    text-align: center;
+    font-size: 0.78rem;
+    color: var(--lg-muted);
+    padding-top: 6px;
+}
+
+/* =========================================================
+   10. PRIJAVA
+   ========================================================= */
+.lg-login-page {
+    align-items: center;
+    justify-content: center;
+}
+
+.lg-login {
+    width: 100%;
+    max-width: 420px;
+    border-top: 4px solid var(--lg-accent);
+    padding: 28px;
+}

@@ -1,0 +1,81 @@
+﻿@{
+    var kontroler = ViewContext.RouteData.Values["controller"]?.ToString();
+
+    string Aktivan(string k) => kontroler == k ? "active" : "";
+
+    var (naslov, podnaslov) = kontroler switch
+    {
+        "Home" => ("Pregled", "Stanje skladišta na jednom mjestu"),
+        "Oprema" => ("Inventar", "Sva oprema"),
+        "Zaduzenja" => ("Zaduženja", "Povijest zaduživanja i razduživanja"),
+        "Zaposlenici" => ("Zaposlenici", "Ljudi na koje se zadužuje oprema"),
+        "Sektori" => ("Sektori", "Organizacijske jedinice"),
+        "Administratori" => ("Administratori", "Korisnici koji upravljaju skladištem"),
+        _ => ("Lageros", "Skladište IT opreme")
+    };
+}
+<!DOCTYPE html>
+<html lang="hr" data-bs-theme="dark">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] · Lageros</title>
+    <script src="~/js/theme.js"></script>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+<body>
+    <div class="lg-shell">
+        <header class="lg-header">
+            <div class="lg-title">
+                <a class="lg-brand" asp-controller="Home" asp-action="Index">
+                    <svg width="30" height="30" viewBox="0 0 24 24" aria-hidden="true">
+                        <path fill="var(--lg-accent)" d="M12 2 21 7 12 12 3 7Z" />
+                        <path fill="var(--lg-accent)" opacity=".7" d="M3 9 11 13.5V22L3 17.5Z" />
+                        <path fill="var(--lg-accent)" opacity=".45" d="M21 9 13 13.5V22L21 17.5Z" />
+                    </svg>
+                    Lageros
+                </a>
+                <div>
+                    <h1>@naslov</h1>
+                    <small>@podnaslov</small>
+                </div>
+            </div>
+
+            <div class="lg-user">
+                <span>@User.Identity?.Name</span>
+                <form asp-controller="Racun" asp-action="Odjava" method="post" class="d-inline">
+                    <button type="submit" class="link-btn">Odjava</button>
+                </form>
+                <div class="theme-switch" role="group" aria-label="Tema">
+                    <button type="button" data-tema-btn="system" title="Sustav">🖥️</button>
+                    <button type="button" data-tema-btn="light" title="Svijetla">☀️</button>
+                    <button type="button" data-tema-btn="dark" title="Tamna">🌙</button>
+                </div>
+            </div>
+        </header>
+
+        <nav class="lg-tabs" aria-label="Glavna navigacija">
+            <a class="@Aktivan("Home")" asp-controller="Home" asp-action="Index">Pregled</a>
+            <a class="@Aktivan("Oprema")" asp-controller="Oprema" asp-action="Index">Inventar</a>
+            <a class="@Aktivan("Zaduzenja")" asp-controller="Zaduzenja" asp-action="Index">Zaduženja</a>
+            <a class="@Aktivan("Zaposlenici")" asp-controller="Zaposlenici" asp-action="Index">Zaposlenici</a>
+            <a class="@Aktivan("Sektori")" asp-controller="Sektori" asp-action="Index">Sektori</a>
+            <a class="@Aktivan("Administratori")" asp-controller="Administratori" asp-action="Index">Administratori</a>
+        </nav>
+
+        <main class="lg-main" role="main">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="lg-footer">
+        <span><strong>Lageros</strong> · VSITE · aplikacija za vođenje skladišta IT opreme · Filip Mostovac</span>
+        <span>Završni rad · @DateTime.Now.Year</span>
+    </footer>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

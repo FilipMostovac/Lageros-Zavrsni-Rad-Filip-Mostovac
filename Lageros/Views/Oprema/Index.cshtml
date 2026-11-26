@@ -1,0 +1,99 @@
+﻿@using Lageros.Models
+@model Lageros.Models.ViewModels.OpremaIndexViewModel
+
+@{
+    ViewData["Title"] = "Inventar";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <div>
+        <h1 class="mb-0">Inventar</h1>
+        <small class="text-muted">@Model.Oprema.Count komada prema odabranim filterima</small>
+    </div>
+    <a asp-action="Create" class="btn btn-success">+ Nova oprema</a>
+</div>
+
+@if (TempData["Greska"] != null)
+{
+    <div class="alert alert-danger">@TempData["Greska"]</div>
+}
+
+<form method="get" asp-action="Index" class="lg-card row g-2 align-items-end mb-4">
+    <div class="col-md-4">
+        <label asp-for="Trazi" class="form-label"></label>
+        <input asp-for="Trazi" class="form-control" placeholder="Inv. broj, proizvođač, model, serijski..." />
+    </div>
+    <div class="col-md-3">
+        <label asp-for="Vrsta" class="form-label"></label>
+        <select asp-for="Vrsta" asp-items="Html.GetEnumSelectList<VrstaOpreme>()" class="form-select">
+            <option value="">Sve vrste</option>
+        </select>
+    </div>
+    <div class="col-md-3">
+        <label asp-for="Status" class="form-label"></label>
+        <select asp-for="Status" asp-items="Html.GetEnumSelectList<StatusOpreme>()" class="form-select">
+            <option value="">Svi statusi</option>
+        </select>
+    </div>
+    <div class="col-md-2">
+        <button type="submit" class="btn btn-outline-secondary w-100">Filtriraj</button>
+    </div>
+</form>
+@if (TempData["Poruka"] != null)
+{
+    <div class="alert alert-success">@TempData["Poruka"]</div>
+}
+<div class="lg-card flush">
+    <table class="table align-middle">
+        <thead>
+            <tr>
+                <th class="col-uski">Inv. broj</th>
+                <th>Oprema</th>
+                <th>Serijski broj</th>
+                <th class="col-uski">Status</th>
+                <th>Zaposlenik</th>
+                <th class="col-akcije"></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var o in Model.Oprema)
+            {
+                <tr>
+                    <td class="col-uski"><code><a asp-action="Details" asp-route-id="@o.Id">@o.InventarniBroj</a></code></td>
+                    <td>
+                        <strong>@o.Proizvodac</strong> @o.Model<br />
+                        <small class="text-muted">@o.Vrsta.Naziv()@(o.Podvrsta != null ? " · " + o.Podvrsta : "")</small>
+                    </td>
+                    <td>@(o.SerijskiBroj ?? "–")</td>
+                    <td class="col-uski"><span class="status status-@(o.Status.ToString().ToLower())">@o.Status.Naziv()</span></td>
+                    <td>
+                        @if (o.Zaposlenik != null)
+                        {
+                            @o.Zaposlenik
+                            <br />
+                            <small class="text-muted">od @o.ZaduzenoOd!.Value.ToString("dd.MM.yyyy.")</small>
+                        }
+                        else
+                        {
+                            <span class="text-muted">—</span>
+                        }
+                    </td>
+                    <td class="col-akcije">
+                        @if (o.Status == StatusOpreme.NaSkladistu)
+                        {
+                            <a asp-controller="Zaduzenja" asp-action="Zaduzi" asp-route-opremaId="@o.Id"
+                               class="btn btn-sm btn-success">Zaduži</a>
+                        }
+                        else if (o.Status == StatusOpreme.Zaduzeno)
+                        {
+                            <a asp-controller="Zaduzenja" asp-action="Razduzi" asp-route-opremaId="@o.Id"
+                               class="btn btn-sm btn-warning">Razduži</a>
+                        }
+                        <a asp-action="Details" asp-route-id="@o.Id"
+                           class="btn btn-sm btn-outline-secondary">Detalji</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

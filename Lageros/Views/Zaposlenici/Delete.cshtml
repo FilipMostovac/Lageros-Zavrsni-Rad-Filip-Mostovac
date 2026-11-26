@@ -1,0 +1,28 @@
+﻿@model Lageros.Models.ViewModels.ZaposlenikDetailsViewModel
+
+@{
+    ViewData["Title"] = "Brisanje zaposlenika";
+}
+
+<h1>Brisanje zaposlenika</h1>
+
+<p>Jeste li sigurni da želite obrisati zaposlenika <strong>@Model.PunoIme</strong> (@Model.Email)?</p>
+
+@if (Model.BrojZaduzenjaUkupno > 0)
+{
+    <div class="alert alert-warning">
+        Zaposlenik ima @Model.BrojZaduzenjaUkupno zaduženja u povijesti
+        (od toga aktivnih: @Model.BrojAktivnihZaduzenja) i ne može se obrisati.
+        Umjesto toga, u uređivanju ga označi kao neaktivnog.
+    </div>
+    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-outline-light">Uredi</a>
+    <a asp-action="Index" class="btn btn-outline-secondary">Natrag</a>
+}
+else
+{
+    <form asp-action="Delete" method="post">
+        <input type="hidden" name="id" value="@Model.Id" />
+        <button type="submit" class="btn btn-danger">Obriši</button>
+        <a asp-action="Index" class="btn btn-outline-secondary">Odustani</a>
+    </form>
+}

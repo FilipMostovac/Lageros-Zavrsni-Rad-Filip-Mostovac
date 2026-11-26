@@ -1,0 +1,60 @@
+﻿@model Lageros.Models.ViewModels.PrijavaViewModel
+
+@{
+    ViewData["Title"] = "Prijava";
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="hr" data-bs-theme="dark">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Prijava · Lageros</title>
+    <script src="~/js/theme.js"></script>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+<body class="lg-login-page">
+    <div class="lg-card lg-login">
+        <div class="text-center mb-4">
+            <div class="d-inline-flex align-items-center gap-2 fs-3 fw-bold">
+                <svg width="34" height="34" viewBox="0 0 24 24" aria-hidden="true">
+                    <path fill="var(--lg-accent)" d="M12 2 21 7 12 12 3 7Z" />
+                    <path fill="var(--lg-accent)" opacity=".7" d="M3 9 11 13.5V22L3 17.5Z" />
+                    <path fill="var(--lg-accent)" opacity=".45" d="M21 9 13 13.5V22L21 17.5Z" />
+                </svg>
+                Lageros
+            </div>
+            <div class="text-muted">Skladište IT opreme</div>
+        </div>
+
+        <form asp-action="Prijava" asp-route-returnUrl="@ViewData["ReturnUrl"]" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="mb-3">
+                <label asp-for="Email" class="form-label"></label>
+                <input asp-for="Email" class="form-control" placeholder="ime@tvrtka.hr" autocomplete="username" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="Lozinka" class="form-label"></label>
+                <input asp-for="Lozinka" class="form-control" autocomplete="current-password" />
+                <span asp-validation-for="Lozinka" class="text-danger"></span>
+            </div>
+            <div class="form-check mb-3">
+                <input asp-for="ZapamtiMe" class="form-check-input" />
+                <label asp-for="ZapamtiMe" class="form-check-label"></label>
+            </div>
+            <button type="submit" class="btn btn-success w-100">Prijava</button>
+        </form>
+
+        <p class="text-muted small text-center mt-3 mb-0">
+            Pristup imaju samo administratori. Novi račun otvara postojeći administrator.
+        </p>
+    </div>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+</body>
+</html>

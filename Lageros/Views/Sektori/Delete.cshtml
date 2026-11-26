@@ -1,0 +1,25 @@
+﻿@model Lageros.Models.Sektor
+
+@{
+    ViewData["Title"] = "Brisanje sektora";
+}
+
+<h1>Brisanje sektora</h1>
+
+<p>Jeste li sigurni da želite obrisati sektor <strong>@Model.Naziv</strong>?</p>
+
+@if (Model.Zaposlenici.Any())
+{
+    <div class="alert alert-warning">
+        Ovaj sektor ima @Model.Zaposlenici.Count zaposlenika i ne može se obrisati.
+    </div>
+    <a asp-action="Index" class="btn btn-outline-secondary">Natrag</a>
+}
+else
+{
+    <form asp-action="Delete" method="post">
+        <input type="hidden" asp-for="Id" />
+        <button type="submit" class="btn btn-danger">Obriši</button>
+        <a asp-action="Index" class="btn btn-outline-secondary">Odustani</a>
+    </form>
+}

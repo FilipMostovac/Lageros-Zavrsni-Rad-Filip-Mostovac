@@ -1,0 +1,79 @@
+﻿@model Lageros.Models.ViewModels.ZaposlenikIndexViewModel
+
+@{
+    ViewData["Title"] = "Zaposlenici";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <div>
+        <h1 class="mb-0">Zaposlenici</h1>
+        <small class="text-muted">@Model.Zaposlenici.Count prikazano</small>
+    </div>
+    <a asp-action="Create" class="btn btn-success">+ Novi zaposlenik</a>
+</div>
+
+<form method="get" asp-action="Index" class="lg-card row g-2 align-items-end mb-4">
+    <div class="col-md-5">
+        <label asp-for="Trazi" class="form-label"></label>
+        <input asp-for="Trazi" class="form-control" placeholder="Ime, prezime ili email..." />
+    </div>
+    <div class="col-md-3">
+        <label asp-for="SektorId" class="form-label"></label>
+        <select asp-for="SektorId" asp-items="Model.Sektori" class="form-select">
+            <option value="">Svi sektori</option>
+        </select>
+    </div>
+    <div class="col-md-2">
+        <div class="form-check">
+            <input asp-for="PrikaziNeaktivne" class="form-check-input" />
+            <label asp-for="PrikaziNeaktivne" class="form-check-label"></label>
+        </div>
+    </div>
+    <div class="col-md-2">
+        <button type="submit" class="btn btn-outline-secondary w-100">Filtriraj</button>
+    </div>
+</form>
+@if (TempData["Greska"] != null)
+{
+    <div class="alert alert-danger">@TempData["Greska"]</div>
+}
+<div class="lg-card flush">
+    <table class="table align-middle">
+        <thead>
+        <tr>
+            <th>Zaposlenik</th>
+            <th>Email</th>
+            <th>Sektor</th>
+            <th class="col-uski">Zadužena oprema</th>
+            <th class="col-akcija"></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var z in Model.Zaposlenici)
+        {
+            <tr class="@(z.Aktivan ? "" : "text-muted")">
+                    <td>
+                        <div class="d-flex align-items-center gap-3">
+                            <span class="avatar">@z.Inicijali</span>
+                            <div>
+                                <strong><a asp-action="Details" asp-route-id="@z.Id">@z.PunoIme</a></strong>
+                                @if (!z.Aktivan)
+                                {
+                                    <span class="badge bg-secondary">neaktivan</span>
+                                }
+                                <br /><small class="text-muted">@z.Radnomjesto</small>
+                            </div>
+                        </div>
+                    </td>
+                <td>@z.Email</td>
+                <td>@z.Sektor</td>
+                <td class="col-uski">@z.BrojZaduzenja</td>
+                <td class="col-akcije">
+                    <a asp-action="Details" asp-route-id="@z.Id"
+                       class="btn btn-sm btn-outline-secondary">Detalji</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+    </table>
+</div>

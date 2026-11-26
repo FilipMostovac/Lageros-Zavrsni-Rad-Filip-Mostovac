@@ -1,0 +1,36 @@
+﻿@model IEnumerable<Lageros.Models.Sektor>
+
+@{
+    ViewData["Title"] = "Sektori";
+    var ukupnoZaposlenika = Model.Sum(s => s.Zaposlenici.Count);
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <div>
+        <h2 class="mb-0">Sektori</h2>
+        <small class="text-muted">@Model.Count() sektora · @ukupnoZaposlenika zaposlenika</small>
+    </div>
+    <a asp-action="Create" class="btn btn-success">+ Novi sektor</a>
+</div>
+
+@if (TempData["Greska"] != null)
+{
+    <div class="alert alert-danger">@TempData["Greska"]</div>
+}
+
+<div class="sektor-grid">
+    @foreach (var s in Model)
+    {
+        <div class="sektor-card">
+            <div class="naziv">@s.Naziv</div>
+            <div class="broj">@s.Zaposlenici.Count</div>
+            <div class="text-muted small">@(s.Opis ?? "zaposlenika")</div>
+            <div class="akcije">
+                <a asp-controller="Zaposlenici" asp-action="Index" asp-route-sektorId="@s.Id"
+                   class="btn btn-sm btn-outline-secondary">Zaposlenici</a>
+                <a asp-action="Edit" asp-route-id="@s.Id">Uredi</a>
+                <a asp-action="Delete" asp-route-id="@s.Id" class="text-muted">Obriši</a>
+            </div>
+        </div>
+    }
+</div>

@@ -1,0 +1,28 @@
+﻿@using Lageros.Models
+@model Lageros.Models.Oprema
+
+@{
+    ViewData["Title"] = "Brisanje opreme";
+}
+
+<h1>Brisanje opreme</h1>
+
+<p>Jeste li sigurni da želite obrisati <strong>@Model.Proizvodac @Model.Model</strong> (<code>@Model.InventarniBroj</code>)?</p>
+
+@if (Model.Zaduzenja.Any())
+{
+    <div class="alert alert-warning">
+        Oprema ima @Model.Zaduzenja.Count zaduženja u povijesti i ne može se obrisati.
+        Umjesto toga, u uređivanju postavi status <strong>Otpisano</strong>.
+    </div>
+    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-outline-light">Uredi</a>
+    <a asp-action="Index" class="btn btn-outline-secondary">Natrag</a>
+}
+else
+{
+    <form asp-action="Delete" method="post">
+        <input type="hidden" name="id" value="@Model.Id" />
+        <button type="submit" class="btn btn-danger">Obriši</button>
+        <a asp-action="Index" class="btn btn-outline-secondary">Odustani</a>
+    </form>
+}

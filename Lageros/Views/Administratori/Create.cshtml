@@ -1,0 +1,50 @@
+﻿@model Lageros.Models.ViewModels.NoviAdministratorViewModel
+
+@{
+    ViewData["Title"] = "Novi administrator";
+}
+
+<h1>Novi administrator</h1>
+
+<form asp-action="Create" method="post">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+    <div class="row">
+        <div class="col-md-6 mb-3">
+            <label asp-for="Ime" class="form-label"></label>
+            <input asp-for="Ime" class="form-control" />
+            <span asp-validation-for="Ime" class="text-danger"></span>
+        </div>
+        <div class="col-md-6 mb-3">
+            <label asp-for="Prezime" class="form-label"></label>
+            <input asp-for="Prezime" class="form-control" />
+            <span asp-validation-for="Prezime" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Email" class="form-label"></label>
+        <input asp-for="Email" class="form-control" />
+        <span asp-validation-for="Email" class="text-danger"></span>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6 mb-3">
+            <label asp-for="Lozinka" class="form-label"></label>
+            <input asp-for="Lozinka" class="form-control" autocomplete="new-password" />
+            <span asp-validation-for="Lozinka" class="text-danger"></span>
+        </div>
+        <div class="col-md-6 mb-3">
+            <label asp-for="PotvrdaLozinke" class="form-label"></label>
+            <input asp-for="PotvrdaLozinke" class="form-control" autocomplete="new-password" />
+            <span asp-validation-for="PotvrdaLozinke" class="text-danger"></span>
+        </div>
+    </div>
+
+    <button type="submit" class="btn btn-success">Spremi</button>
+    <a asp-action="Index" class="btn btn-outline-secondary">Odustani</a>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

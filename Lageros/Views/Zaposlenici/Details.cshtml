@@ -1,0 +1,67 @@
+﻿@model Lageros.Models.ViewModels.ZaposlenikDetailsViewModel
+
+@{
+    ViewData["Title"] = Model.PunoIme;
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <div>
+        <h1 class="mb-0">@Model.PunoIme</h1>
+        <small class="text-muted">@Model.Radnomjesto · @Model.Sektor</small>
+        @if (!Model.Aktivan)
+        {
+            <span class="badge bg-secondary ms-2">neaktivan</span>
+        }
+    </div>
+    <div>
+        <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-outline-secondary">Uredi</a>
+        <a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-outline-danger">Obriši</a>
+        <a asp-action="Index" class="btn btn-outline-secondary">Natrag</a>
+    </div>
+</div>
+
+<p>Email: <strong>@Model.Email</strong></p>
+
+<h4 class="mt-4">Oprema</h4>
+
+@if (!Model.Zaduzenja.Any())
+{
+    <p class="text-muted">Zaposlenik nema zaduženja.</p>
+}
+else
+{
+    <table class="table align-middle">
+        <thead>
+            <tr>
+                <th>Inv. broj</th>
+                <th>Oprema</th>
+                <th>Zaduženo</th>
+                <th>Razduženo</th>
+                <th>Napomena</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var a in Model.Zaduzenja)
+            {
+                <tr>
+                    <td><code><a asp-controller="Oprema" asp-action="Details" asp-route-id="@a.OpremaId">@a.InventarniBroj</a></code></td>
+                    <td>@a.Oprema</td>
+                    <td>@a.InventarniBroj</td>
+                    <td>@a.DatumZaduzenja.ToString("dd.MM.yyyy.")</td>
+                    <td>
+                        @if (a.Aktivno)
+                        {
+                            <span class="badge bg-primary">aktivno</span>
+                        }
+                        else
+                        {
+
+                            @a.DatumRazduzenja!.Value.ToString("dd.MM.yyyy.")
+                        }
+                    </td>
+                    <td>@a.Napomena</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

@@ -1,0 +1,38 @@
+﻿@model Lageros.Models.ViewModels.RazduziViewModel
+
+@{
+    ViewData["Title"] = "Razduži opremu";
+}
+
+<h1>Razduži opremu</h1>
+<p class="text-muted">
+    @Model.OpremaOpis<br />
+    Zadužio/la: <strong>@Model.ZaposlenikIme</strong> od @Model.DatumZaduzenja.ToString("dd.MM.yyyy.")
+</p>
+
+<form asp-action="Razduzi" method="post">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <input type="hidden" asp-for="ZaduzenjeId" />
+    <input type="hidden" asp-for="OpremaOpis" />
+    <input type="hidden" asp-for="ZaposlenikIme" />
+    <input type="hidden" asp-for="DatumZaduzenja" />
+
+    <div class="mb-3">
+        <label asp-for="Datum" class="form-label"></label>
+        <input asp-for="Datum" type="date" class="form-control" />
+        <span asp-validation-for="Datum" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Napomena" class="form-label"></label>
+        <textarea asp-for="Napomena" class="form-control" rows="2"></textarea>
+        <span asp-validation-for="Napomena" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-warning">Razduži</button>
+    <a asp-controller="Oprema" asp-action="Index" class="btn btn-outline-secondary">Odustani</a>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

@@ -1,0 +1,56 @@
+﻿@model List<Lageros.Models.ViewModels.AdministratorRedakViewModel>
+
+@{
+    ViewData["Title"] = "Administratori";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <div>
+        <h1 class="mb-0">Administratori</h1>
+        <small class="text-muted">@Model.Count korisnika s pristupom aplikaciji</small>
+    </div>
+    <a asp-action="Create" class="btn btn-success">+ Novi administrator</a>
+</div>
+
+@if (TempData["Poruka"] != null)
+{
+    <div class="alert alert-success">@TempData["Poruka"]</div>
+}
+@if (TempData["Greska"] != null)
+{
+    <div class="alert alert-danger">@TempData["Greska"]</div>
+}
+
+<div class="lg-card flush">
+    <table class="table align-middle">
+    <thead>
+        <tr><th>Ime</th><th>Prezime</th><th>Email</th><th></th></tr>
+    </thead>
+    <tbody>
+        @foreach (var a in Model)
+        {
+            <tr>
+                <td>@a.Ime</td>
+                <td>@a.Prezime</td>
+                <td>
+                    @a.Email
+                    @if (a.JeTrenutni)
+                    {
+                        <span class="badge bg-success">vi</span>
+                    }
+                </td>
+                <td>
+                    @if (!a.JeTrenutni)
+                    {
+                        <form asp-action="Delete" method="post" class="d-inline"
+                              onsubmit="return confirm('Obrisati administratora @a.Email?');">
+                            <input type="hidden" name="id" value="@a.Id" />
+                            <button type="submit" class="btn btn-link text-danger p-0">Obriši</button>
+                        </form>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+    </table>
+</div>

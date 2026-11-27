@@ -42,8 +42,8 @@
                 <td>
                     @if (!a.JeTrenutni)
                     {
-                        <form asp-action="Delete" method="post" class="d-inline"
-                              onsubmit="return confirm('Obrisati administratora @a.Email?');">
+                            <form asp-action="Delete" method="post" class="d-inline js-potvrda"
+                                  data-poruka="Obrisati administratora @a.Email?">
                             <input type="hidden" name="id" value="@a.Id" />
                             <button type="submit" class="btn btn-link text-danger p-0">Obriši</button>
                         </form>

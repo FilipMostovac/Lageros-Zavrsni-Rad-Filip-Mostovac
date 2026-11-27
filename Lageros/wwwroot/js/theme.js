@@ -32,4 +32,8 @@
 
         oznaci();
     });
+    document.addEventListener('submit', function (e) {
+        const f = e.target.closest('.js-potvrda');
+        if (f && !confirm(f.dataset.poruka)) e.preventDefault();
+    });
 })();

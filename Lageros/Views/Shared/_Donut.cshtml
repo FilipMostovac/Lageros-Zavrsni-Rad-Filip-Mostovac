@@ -1,0 +1,29 @@
+﻿@using System.Globalization
+@model Lageros.Models.ViewModels.DonutViewModel
+
+@{
+    var inv = CultureInfo.InvariantCulture;
+    var dijelovi = new List<string>();
+    double od = 0;
+
+    foreach (var s in Model.Segmenti.Where(s => s.Broj > 0))
+    {
+        var kraj = od + s.Broj * 100.0 / Model.Ukupno;
+        dijelovi.Add($"{s.Boja} {od.ToString("0.##", inv)}% {kraj.ToString("0.##", inv)}%");
+        od = kraj;
+    }
+
+    var pozadina = Model.Ukupno == 0
+        ? "var(--lg-border)"
+        : $"conic-gradient({string.Join(", ", dijelovi)})";
+}
+
+<div class="donut" style="--d:@(Model.Velicina)px; background:@pozadina">
+    <div class="donut-hole">
+        <span>@Model.Ukupno</span>
+        @if (Model.Oznaka != null)
+        {
+            <small>@Model.Oznaka</small>
+        }
+    </div>
+</div>

@@ -1,6 +1,104 @@
-﻿@{
-    ViewData["Title"] = "Početna";
+﻿@model Lageros.Models.ViewModels.DashboardViewModel
+
+@{
+    ViewData["Title"] = "Pregled";
+    var tickovi = Enumerable.Range(0, 5).Select(i => i * Model.VrhOsi / 4).ToList();
+    var ukupno = Math.Max(1, Model.Ukupno);
 }
 
-<h1>Skladište IT opreme</h1>
-<p>Moja prva stranica.</p>
+<section class="lg-card welcome">
+    <div>
+        <div class="datum">@Model.Datum</div>
+        <h2>@Model.Pozdrav</h2>
+        <div class="text-muted">
+            Na evidenciji je @Model.Ukupno komada opreme: @Model.UUpotrebi u upotrebi kod
+            @Model.ZaposlenikaSOpremom aktivnih zaposlenika, @Model.NaSkladistu na skladištu.
+        </div>
+    </div>
+    <div class="d-flex gap-2 flex-wrap">
+        <a asp-controller="Oprema" asp-action="Create" class="btn btn-success">Nova oprema</a>
+        <a asp-controller="Oprema" asp-action="Index" asp-route-status="1" class="btn btn-outline-secondary">Zaduži opremu</a>
+        <a asp-controller="Zaduzenja" asp-action="Index" class="btn btn-outline-secondary">Povijest</a>
+    </div>
+</section>
+
+<section class="dash-grid-3">
+    @foreach (var v in Model.PoVrstama)
+    {
+        <div class="lg-card stat-card">
+            <partial name="_Donut" model="v.Donut" />
+            <div class="stat-info">
+                <h3>@v.Naslov</h3>
+                <ul class="legend">
+                    <li><i class="dot dot-zaduzeno"></i>U upotrebi <b>@v.UUpotrebi</b></li>
+                    <li><i class="dot dot-skladiste"></i>Na skladištu <b>@v.NaSkladistu</b></li>
+                    @if (v.NaServisu > 0)
+                    {
+                        <li><i class="dot dot-servis"></i>Na servisu <b>@v.NaServisu</b></li>
+                    }
+                </ul>
+            </div>
+        </div>
+    }
+</section>
+
+<section class="dash-grid-2">
+    <div class="lg-card">
+        <div class="chart-head">
+            <h3 class="h6 mb-0">Stanje opreme</h3>
+            <small class="text-muted">otpisano: @Model.Otpisano</small>
+        </div>
+        <div class="d-flex align-items-center gap-4">
+            <partial name="_Donut" model="Model.UkupnoDonut" />
+            <ul class="legend flex-fill">
+                <li><i class="dot dot-skladiste"></i>Na skladištu <b>@Model.NaSkladistu</b> <span class="text-muted ms-1">@(Model.NaSkladistu * 100 / ukupno) %</span></li>
+                <li><i class="dot dot-zaduzeno"></i>Zaduženo <b>@Model.UUpotrebi</b> <span class="text-muted ms-1">@(Model.UUpotrebi * 100 / ukupno) %</span></li>
+                <li><i class="dot dot-servis"></i>Na servisu <b>@Model.NaServisu</b> <span class="text-muted ms-1">@(Model.NaServisu * 100 / ukupno) %</span></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="lg-card">
+        <div class="chart-head">
+            <h3 class="h6 mb-0">Zaduženja po mjesecima</h3>
+            <div class="chart-legend">
+                <span><i class="dot dot-zaduzeno"></i>Zaduženo</span>
+                <span><i class="dot dot-skladiste"></i>Vraćeno</span>
+            </div>
+        </div>
+
+        <div class="chart">
+            <div class="chart-y">
+                @foreach (var t in tickovi)
+                {
+                    <span style="bottom:@(t * 100 / Model.VrhOsi)%">@t</span>
+                }
+            </div>
+
+            <div class="chart-plot">
+                @foreach (var t in tickovi)
+                {
+                    <div class="chart-line" style="bottom:@(t * 100 / Model.VrhOsi)%"></div>
+                }
+                <div class="chart-cols">
+                    @foreach (var m in Model.PoMjesecima)
+                    {
+                        <div class="chart-col">
+                            <span class="bar bar-a" style="height:@(m.Zaduzeno * 100 / Model.VrhOsi)%"
+                                  title="@m.Oznaka: zaduženo @m.Zaduzeno"></span>
+                            <span class="bar bar-b" style="height:@(m.Vraceno * 100 / Model.VrhOsi)%"
+                                  title="@m.Oznaka: vraćeno @m.Vraceno"></span>
+                        </div>
+                    }
+                </div>
+            </div>
+
+            <div class="chart-labels">
+                @foreach (var m in Model.PoMjesecima)
+                {
+                    <span>@m.Oznaka</span>
+                }
+            </div>
+        </div>
+    </div>
+</section>
